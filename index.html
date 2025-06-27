@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EVCP | Next-Gen Tech</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@600&family=Poppins:wght@300;500;700&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root {
+      --primary-neon-color: #00e0ff;
+      --secondary-glow-color: #ff00ee;
+      --text-light: #e0faff;
+      --bg-dark: #0a0a0a;
+      --card-bg: rgba(10, 10, 20, 0.6);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+      -ms-overflow-style: none;  /* IE/Edge */
+      scrollbar-width: none;     /* Firefox */
+    }
+
+    body::-webkit-scrollbar {
+      display: none; /* Chrome/Safari/Opera */
+    }
+
+    section {
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4rem;
+      color: var(--primary-neon-color);
+      text-shadow: 0 0 20px var(--primary-neon-color), 0 0 30px var(--secondary-glow-color);
+      animation: neonPulse 2s infinite alternate;
+    }
+
+    @keyframes neonPulse {
+      from { text-shadow: 0 0 15px var(--primary-neon-color), 0 0 25px var(--secondary-glow-color); }
+      to { text-shadow: 0 0 25px var(--primary-neon-color), 0 0 40px var(--secondary-glow-color); }
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin-top: 20px;
+      line-height: 1.6;
+    }
+
+    .video-showcase {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .video-card {
+      width: 360px;
+      background: var(--card-bg);
+      border-radius: 15px;
+      border: 1px solid rgba(0, 224, 255, 0.3);
+      box-shadow: 0 0 20px rgba(0, 224, 255, 0.2);
+      overflow: hidden;
+      transition: transform 0.5s ease, box-shadow 0.5s ease;
+    }
+
+    .video-card video {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-bottom: 1px solid rgba(0, 224, 255, 0.3);
+    }
+
+    .video-card-title {
+      padding: 15px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      text-shadow: 0 0 8px rgba(0,224,255,0.5);
+    }
+
+    .video-card:hover {
+      transform: translateY(-10px) scale(1.03);
+      box-shadow: 0 0 30px var(--primary-neon-color), 0 0 40px var(--secondary-glow-color);
+    }
+
+    .btn-explore {
+      background: linear-gradient(45deg, var(--primary-neon-color), var(--secondary-glow-color));
+      color: var(--bg-dark);
+      padding: 16px 40px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      margin-top: 40px;
+      box-shadow: 0 0 20px var(--primary-neon-color);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-explore::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      background: rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: width 0.4s ease, height 0.4s ease, opacity 0.4s ease;
+      z-index: 0;
+    }
+
+    .btn-explore:hover::before {
+      width: 200%;
+      height: 200%;
+      opacity: 1;
+    }
+
+    .btn-explore span {
+      position: relative;
+      z-index: 1;
+    }
+
+    footer {
+      margin-top: 80px;
+      padding: 30px 10px;
+      font-size: 0.9rem;
+      color: #888;
+      border-top: 1px solid rgba(0, 224, 255, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      p {
+        font-size: 1rem;
+      }
+
+      .video-card {
+        width: 90%;
+      }
+
+      .btn-explore {
+        font-size: 1rem;
+        padding: 12px 30px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero Section -->
+  <section id="hero">
+    <h1>EVCP</h1>
+    <p>Delivering cutting-edge solutions in <strong>Embedded Systems</strong>, <strong>VLSI Design</strong>, and <strong>Advanced Communication</strong> through AI-driven innovation and real-time simulations.</p>
+  </section>
+
+  <!-- Video Section -->
+  <section id="videos">
+    <div class="video-showcase">
+      <div class="video-card">
+        <video controls loop muted>
+          <source src="./ssss.mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-title">Embedded Systems Overview</div>
+      </div>
+      <div class="video-card">
+        <video controls loop muted>
+          <source src="./vlsimini.mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-title">VLSI Design Highlights</div>
+      </div>
+      <div class="video-card">
+        <video controls loop muted>
+          <source src="./matmini.mp4" type="video/mp4" />
+        </video>
+        <div class="video-card-title">Communication Systems</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Explore Button Section -->
+  <section id="explore">
+    <button class="btn-explore" onclick="location.href='projects.html'">
+      <span>Explore All Domains</span>
+    </button>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2025 EVCP Technologies. All rights reserved.
+  </footer>
+
+</body>
+</html>

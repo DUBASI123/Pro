@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Profiles - Modal Display</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: #e6f0ff;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body::-webkit-scrollbar {
+      display: none;
+    }
+
+    #video-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+    }
+
+    #video-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(10, 20, 40, 0.7);
+      z-index: -1;
+    }
+
+    main {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+      position: relative;
+      z-index: 1;
+      transition: filter 0.3s ease;
+    }
+
+    .blurred {
+      filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .profile-card {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      border-radius: 16px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.5);
+      padding: 16px;
+      backdrop-filter: blur(10px);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      border: 1px solid #444;
+    }
+
+    .profile-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .profile-header img {
+      width: 70px; height: 70px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid #5274f7aa;
+    }
+
+    .profile-info .name {
+      font-size: 18px;
+      font-weight: bold;
+      color: #a8c8ff;
+      margin: 0;
+    }
+
+    .project {
+      font-size: 14px;
+      font-style: italic;
+      color: #c3d9ff;
+    }
+
+    .team {
+      font-size: 13px;
+      color: #92aede;
+    }
+
+    .modal {
+      position: fixed;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      background: rgba(20, 25, 40, 0.95);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 600px;
+      z-index: 100;
+      color: #e6f0ff;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+    }
+
+    .modal.active {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal img.project-image {
+      width: 100%;
+      max-height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 2px solid #5274f7aa;
+    }
+
+    .team-members {
+      display: flex;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    .team-member {
+      text-align: center;
+      font-size: 12px;
+      color: #a6bfffcc;
+    }
+
+    .team-member img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #5274f7bb;
+      object-fit: cover;
+      margin-bottom: 4px;
+    }
+
+    #overlay-blur {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      backdrop-filter: blur(6px);
+      background: rgba(0,0,0,0.4);
+      z-index: 99;
+      display: none;
+    }
+
+    #overlay-blur.active {
+      display: block;
+    }
+
+    .close-btn {
+      background: transparent;
+      color: #fff;
+      border: 2px solid #fff;
+      padding: 6px 18px;
+      border-radius: 20px;
+      cursor: pointer;
+      margin-top: 15px;
+      transition: background 0.3s;
+    }
+
+    .close-btn:hover {
+      background: #5274f7;
+      border-color: #5274f7;
+    }
+
+    .download-links {
+      margin-top: 15px;
+    }
+
+    .download-links a {
+      display: inline-block;
+      background: #5274f7;
+      color: white;
+      padding: 8px 16px;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 13px;
+      transition: background 0.3s;
+    }
+
+    .download-links a:hover {
+      background: #3d5ddb;
+    }
+  </style>
+</head>
+<body>
+
+  <video autoplay muted loop id="video-bg" playsinline>
+    <source src="./bbb.mp4" type="video/mp4" />
+  </video>
+  <div id="video-overlay"></div>
+  <div id="overlay-blur"></div>
+
+  <main id="profile-container"></main>
+
+  <div class="modal" id="profileModal">
+    <h2 id="modalName"></h2>
+    <p id="modalProject"></p>
+    <p id="modalTeam"></p>
+    <img class="project-image" id="modalImage" src="" alt="Project Image" />
+    <p><strong>Project Description:</strong> <span id="modalDesc"></span></p>
+    <p><strong>Technologies:</strong> Arduino, Sensors, GSM/WiFi Modules</p>
+    <div class="team-members" id="modalMembers"></div>
+    <div class="download-links">
+      <a id="abstractLink" href="#" download>Download Abstract</a>
+      <a id="pptLink" href="#" download>Download PPT</a>
+      <a id="pdfLink" href="#" download>Download PDF</a>
+    </div>
+    <button class="close-btn" onclick="closeModal()">Close</button>
+  </div>
+
+  <script>
+    const profiles = [
+      { name: "Ajay", project: "AI Attendance Tracker", team: "Team Alpha" },
+      { name: "Srija", project: "IoT Street Light", team: "Team Beta" },
+      { name: "Siri", project: "Smart Agriculture", team: "Team Gamma" },
+      { name: "Chandhana", project: "Gas Leakage Detector", team: "Team Delta" },
+      { name: "Susmitha", project: "Voice Controlled Robot", team: "Team Epsilon" },
+      { name: "Pooja", project: "Obstacle Avoiding Car", team: "Team Zeta" },
+      { name: "Akashay", project: "Home Automation", team: "Team Eta" },
+      { name: "Vignesh", project: "RFID Door Lock", team: "Team Theta" },
+      { name: "Ravi", project: "Smart Dustbin", team: "Team Iota" },
+      { name: "Shashi", project: "Heartbeat Monitor", team: "Team Kappa" },
+      { name: "Udhaysri", project: "Temperature Logger", team: "Team Lambda" },
+      { name: "Pravalika", project: "Drone Control System", team: "Team Sigma" }
+    ];
+
+    const container = document.getElementById("profile-container");
+
+    profiles.forEach((profile, i) => {
+      container.innerHTML += `
+        <div class="profile-card" onclick="showModal(${i})">
+          <div class="profile-header">
+            <img src="https://via.placeholder.com/100?text=${profile.name}" alt="${profile.name}" />
+            <div class="profile-info">
+              <p class="name">${profile.name}</p>
+              <p class="project">${profile.project}</p>
+              <p class="team">${profile.team}</p>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+
+    function showModal(index) {
+      const profile = profiles[index];
+      document.getElementById("modalName").textContent = profile.name;
+      document.getElementById("modalProject").textContent = profile.project;
+      document.getElementById("modalTeam").textContent = profile.team;
+      document.getElementById("modalImage").src = `https://picsum.photos/seed/${index + 1}/600/300`;
+      document.getElementById("modalDesc").textContent = `This project implements ${profile.project.toLowerCase()} using embedded systems.`;
+
+      // Update team members
+      const members = document.getElementById("modalMembers");
+      members.innerHTML = `
+        <div class="team-member"><img src="https://randomuser.me/api/portraits/men/${index + 10}.jpg"><br>Member A</div>
+        <div class="team-member"><img src="https://randomuser.me/api/portraits/women/${index + 20}.jpg"><br>Member B</div>
+        <div class="team-member"><img src="https://randomuser.me/api/portraits/men/${index + 30}.jpg"><br>Member C</div>
+      `;
+
+      // Sample file links — replace '#' with actual file paths
+      document.getElementById("abstractLink").href = `files/abstract${index + 1}.pdf`;
+      document.getElementById("pptLink").href = `files/ppt${index + 1}.pptx`;
+      document.getElementById("pdfLink").href = `files/report${index + 1}.pdf`;
+
+      document.getElementById("profileModal").classList.add("active");
+      document.getElementById("overlay-blur").classList.add("active");
+      document.getElementById("profile-container").classList.add("blurred");
+    }
+
+    function closeModal() {
+      document.getElementById("profileModal").classList.remove("active");
+      document.getElementById("overlay-blur").classList.remove("active");
+      document.getElementById("profile-container").classList.remove("blurred");
+    }
+  </script>
+</body>
+</html>

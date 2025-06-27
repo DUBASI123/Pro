@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini Projects - Animated with Video Background</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      min-height: 100%;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Times New Roman', sans-serif;
+      color: #e0f7ff;
+      overflow-x: hidden;
+      background: #000;
+    }
+
+    #bg-video {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: -2;
+      filter: brightness(0.6);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: -1;
+    }
+
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.85);
+      padding: 15px 40px;
+      display: flex;
+      justify-content: flex-end;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+    }
+
+    nav a {
+      color: #00f2ff;
+      text-decoration: none;
+      font-size: 18px;
+      margin-left: 25px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px #00f2ff88;
+      transition: 0.4s;
+    }
+
+    nav a:hover {
+      background-color: #00f2ff;
+      color: #000;
+      box-shadow: 0 0 30px #00f2ffdd;
+    }
+
+    .container {
+      padding: 100px 20px 100px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 10;
+    }
+
+    h1 {
+      margin-bottom: 50px;
+      font-size: 42px;
+      text-align: center;
+      text-shadow: 0 0 15px #00f2ffaa;
+      letter-spacing: 3px;
+    }
+
+    .sections {
+      display: flex;
+      gap: 50px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .image-card {
+      position: relative;
+      width: 320px;
+      height: 210px;
+      overflow: hidden;
+      border-radius: 20px;
+      cursor: pointer;
+      box-shadow: 0 0 10px #00f2ff88, 0 0 20px #00f2ff66, 0 0 30px #00f2ff44;
+      animation: pulseGlow 3s ease-in-out infinite;
+      transition: transform 0.4s, box-shadow 0.4s;
+    }
+
+    .image-card:hover {
+      transform: scale(1.07);
+      animation-play-state: paused;
+      box-shadow: 0 0 20px #ffdd0088, 0 0 40px #ffdd0066, 0 0 60px #ffdd0044;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% {
+        box-shadow: 0 0 10px #00f2ff88, 0 0 20px #00f2ff66, 0 0 30px #00f2ff44;
+      }
+      50% {
+        box-shadow: 0 0 20px #00f2ffcc, 0 0 40px #00f2ff99, 0 0 60px #00f2ff66;
+      }
+    }
+
+    .image-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+      display: block;
+      transition: 0.4s;
+    }
+
+    .caption {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(0, 0, 0, 0.6);
+      color: #ffdd00;
+      font-size: 22px;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 10px;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+      text-align: center;
+    }
+
+    .image-card:hover .caption {
+      opacity: 1;
+    }
+
+    @media (max-width: 600px) {
+      .image-card {
+        width: 90vw;
+        height: 180px;
+      }
+
+      .caption {
+        font-size: 16px;
+      }
+
+      h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <video id="bg-video" autoplay loop muted playsinline>
+    <source src="./ssss.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <nav>
+    <a href="projects.html">← Back to Projects</a>
+  </nav>
+
+  <div class="container">
+    <h1>SECTIONS & BATCHES</h1>
+
+    <div class="sections">
+      <div class="image-card" onclick="location.href='ece-a.html'">
+        <img src="./blackhat.jpg" alt="ECE A" />
+        <div class="caption">ECE A</div>
+      </div>
+
+      <div class="image-card" onclick="location.href='ece-b.html'">
+        <img src="./redhat.jpg" alt="ECE B" />
+        <div class="caption">ECE B</div>
+      </div>
+
+      <div class="image-card" onclick="location.href='ece-c.html'">
+        <img src="./blackhat.jpg" alt="ECE C" />
+        <div class="caption">ECE C</div>
+      </div>
+
+      
+</body>
+</html>
